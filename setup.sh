@@ -3,12 +3,14 @@
 VIRTUALENV_DIR=venv
 DATA_DIR=data
 
+# Check username has been defined
 if [[ -z "$MASTODON_USER" ]]; then
     echo "Please specified your username (i.e: user@domain.tld) on the MASTODON_USER system variable"
     exit 1
 fi
 echo "setting up archive for $MASTODON_USER"
 
+# Setup mastodon-archive and mastodon-data-browser
 git submodule update --init --recursive
 
 if [ ! -d "$VIRTUALENV_DIR" ]; then
@@ -28,6 +30,6 @@ if [ ! -d "$DATA_DIR" ]; then
     mkdir "$DATA_DIR"
 fi
 
+# Initialize the archive
 cd "$DATA_DIR"
-mastodon-archive archive "$MASTODON_USER"
-mastodon-archive outbox "$MASTODON_USER"
+../archive.sh

@@ -3,4 +3,4 @@
 	url = https://github.com/TheLastBilly/mastodon-archive
 [submodule "mastodon-data-viewer.py"]
 	path = mastodon-data-viewer.py
-	url = https://github.com/blackle/mastodon-data-viewer.py
+	url = https://github.com/TheLastBilly/mastodon-data-viewer.py
