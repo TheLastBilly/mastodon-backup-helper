@@ -51,6 +51,7 @@ Description=Unit service file for mastodon-backup-helper
 
 [Service]
 Type=simple
+RuntimeMaxSec=1d
 StandardOutput=journal
 WorkingDirectory=$BACKUP_PATH/mastodon-backup-helper
 Environment="DATA_VIEWER_PORT=$DATA_VIEWER_PORT"
@@ -61,6 +62,16 @@ ExecStart=$(which bash) service.sh
 [Install]
 WantedBy=default.target
 EOF
+
 systemctl --user daemon-reload
 systemctl --user enable "$SERVICE_NAME"
 systemctl --user restart "$SERVICE_NAME"
+echo "Created \"$SERVICE_NAME\""
+
+# UPDATE_CRONJOB_SCRIPT="systemctl --user restart $SERVICE_NAME"
+# CRONTAB=$(crontab -l 2>&1)
+# if [ "$CRONTAB" = "no crontab for $USER" ] | [[ "$CRONTAB" != *"$UPDATE_CRONJOB_SCRIPT"* ]] ; then
+#     CRONTAB=${CRONTAB#"no crontab for $USER"}
+#     CRONTAB="$CRONTAB"$'\n'"0 0 * * * $UPDATE_CRONJOB_SCRIPT"
+#     echo "$CRONTAB" | crontab -
+# fi
