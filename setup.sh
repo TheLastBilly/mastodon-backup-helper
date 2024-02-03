@@ -1,9 +1,7 @@
 #!/bin/bash
 
-VIRTUALENV_DIR=venv
-DATA_DIR=data
+source globals.sh
 
-# Check username has been defined
 if [[ -z "$MASTODON_USER" ]]; then
     echo "Please specified your username (i.e: user@domain.tld) on the MASTODON_USER system variable"
     exit 1

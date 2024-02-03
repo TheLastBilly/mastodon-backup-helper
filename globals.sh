@@ -1,0 +1,2 @@
+VIRTUALENV_DIR=venv
+DATA_DIR=data
