@@ -11,4 +11,4 @@ cd "$DATA_DIR"
 ../archive.sh
 
 python ../mastodon-data-viewer.py/mastodon-data-viewer.py --archive ./ --cache ./ \
-    --hostname "$DATA_VIEWER_HOST" --port "$DATA_VIEWER_PORT" --use-outbox
+    --hostname "$DATA_VIEWER_HOST" --port "$DATA_VIEWER_PORT" --use-outbox --darkmode-default
