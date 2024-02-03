@@ -4,6 +4,19 @@ DEFAULT_BACKUP_PATH="./"
 DEFAULT_DATA_VIEWER_PORT=8080
 DEFAULT_DATA_VIEWER_HOST=localhost
 
+echo "WARNING: This script is still a work in progress, please take your time to review the code at https://github.com/TheLastBilly/mastodon-backup-helper if you can."
+
+CONTINUE=""
+while [[ -z "$CONTINUE" ]]; do
+    printf "Would you like to continue? [yes/no] (no default): "
+    read CONTINUE
+    if [ "$CONTINUE" == "yes" ]; then
+        break
+    elif [ "$CONTINUE" == "no" ]; then
+        exit 0
+    fi
+done
+
 if [[ -z "$BACKUP_PATH" ]]; then
     printf "Installation path for mastodon-backup-helper (default=$DEFAULT_BACKUP_PATH): "
     read BACKUP_PATH
@@ -39,7 +52,7 @@ export MASTODON_USER
 
 BACKUP_PATH=$(realpath "$BACKUP_PATH")
 
-sudo apt install python3 python3-virtualenv python3-pip git
+sudo apt install -y python3 python3-virtualenv python3-pip git
 
 cd "$BACKUP_PATH"
 git clone https://github.com/TheLastBilly/mastodon-backup-helper 
@@ -75,6 +88,14 @@ systemctl --user daemon-reload
 systemctl --user enable "$SERVICE_NAME"
 systemctl --user restart "$SERVICE_NAME"
 echo "Created \"$SERVICE_NAME\""
+
+ENABLE_LINGER="no"
+LINGER_COMMAND="loginctl enable-linger"
+printf "Would you like to run $SERVICE_NAME on boot ($LINGER_COMMAND)? [yes/no] (default=no): "
+read ENABLE_LINGER
+if [ "$ENABLE_LINGER" == "yes" ]; then
+    `$LINGER_COMMAND`
+fi
 
 # UPDATE_CRONJOB_SCRIPT="systemctl --user restart $SERVICE_NAME"
 # CRONTAB=$(crontab -l 2>&1)
