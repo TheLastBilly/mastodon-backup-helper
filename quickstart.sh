@@ -1,17 +1,23 @@
 #!/bin/bash
 
+DEFAULT_BACKUP_PATH="./"
 DEFAULT_DATA_VIEWER_PORT=8080
 DEFAULT_DATA_VIEWER_HOST=localhost
 
 if [[ -z "$BACKUP_PATH" ]]; then
-    BACKUP_PATH="./"
+    printf "Installation path for mastodon-backup-helper (default=$DEFAULT_BACKUP_PATH): "
+    read BACKUP_PATH
+    if [[ -z "$BACKUP_PATH" ]]; then
+        BACKUP_PATH="$DEFAULT_BACKUP_PATH"
+    fi
 fi
+export BACKUP_PATH
 
 if [[ -z "$DATA_VIEWER_PORT" ]]; then
     printf "Web server port (default=$DEFAULT_DATA_VIEWER_PORT): "
     read DATA_VIEWER_PORT
     if [[ -z "$DATA_VIEWER_PORT" ]]; then
-        DATA_VIEWER_PORT=8080
+        DATA_VIEWER_PORT=$DEFAULT_DATA_VIEWER_PORT
     fi
 fi
 export DATA_VIEWER_PORT
@@ -20,7 +26,7 @@ if [[ -z "$DATA_VIEWER_HOST" ]]; then
     printf "Web server host (default=$DEFAULT_DATA_VIEWER_HOST): "
     read DATA_VIEWER_HOST
     if [[ -z "$DATA_VIEWER_HOST" ]]; then
-        DATA_VIEWER_HOST="localhost"
+        DATA_VIEWER_HOST="$DEFAULT_DATA_VIEWER_HOST"
     fi
 fi
 export DATA_VIEWER_HOST
@@ -32,6 +38,8 @@ done
 export MASTODON_USER
 
 BACKUP_PATH=$(realpath "$BACKUP_PATH")
+
+sudo apt install python3 python3-virtualenv python3-pip git
 
 cd "$BACKUP_PATH"
 git clone https://github.com/TheLastBilly/mastodon-backup-helper 
