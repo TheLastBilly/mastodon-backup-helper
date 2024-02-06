@@ -73,6 +73,7 @@ Description=Unit service file for mastodon-backup-helper
 [Service]
 Type=simple
 RuntimeMaxSec=1d
+Restart=always
 StandardOutput=journal
 WorkingDirectory=$BACKUP_PATH/mastodon-backup-helper
 Environment="DATA_VIEWER_PORT=$DATA_VIEWER_PORT"
